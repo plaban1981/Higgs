@@ -10,16 +10,17 @@ from tensorflow.keras.optimizers import Adam
 
 
 
-model = tf.keras.models.load_model('Higgs_scaled.h5')
+model = tf.keras.models.load_model('Higgs_chk.h5')
 
 def prediction(model,input):
     prediction = model.predict(input)
+    print(prediction)
     print('prediction successful')
     return 's' if prediction[0][0] >= 0.5 else 'b'
 
 def proba(model,input):
     proba = model.predict(input)
-    print('probability successful')
+    print('probability successful') 
     return proba
 
 
@@ -82,17 +83,16 @@ def main():
 
 
     input = np.array([[i,j,k,l,m,n,o,a,b,c,d,e,f,g,p,r,s,t,u,v,w,x,y,z,z1,z2,z3,z4,z5,z6,z7]])
-    print(type(i))
-    print(input)
-    
+       
     
     if st.button('Detect Event'):
         pred = prediction(model,input)        
         st.success('The event is predicted is ' + pred)
 
     if st.button('Show Probability'):
+        pred = prediction(model,input)
         prob = proba(model,input)
-        st.success('The probability of the event is {}'.format(prob[0][0]))
+        st.success('The probability of the event {} is {}%'.format(pred,np.round(1- prob[0][0],2)))
 
 if __name__ == '__main__':
 
